@@ -16,6 +16,7 @@
             font-family: 'Orbitron', sans-serif;
             touch-action: none;
             user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
 
         #gameCanvas {
@@ -50,6 +51,8 @@
             backdrop-filter: blur(8px);
             transition: opacity 0.3s ease;
             z-index: 10;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .screen.active {
@@ -66,7 +69,8 @@
             gap: 10px;
             z-index: 1000;
             pointer-events: none;
-            width: 300px;
+            width: 90%;
+            max-width: 300px;
         }
 
         .notification {
@@ -93,24 +97,24 @@
             background: linear-gradient(180deg, rgba(0, 255, 255, 0.1), rgba(0, 255, 255, 0.05));
             border: 1px solid #00ffff;
             color: #00ffff;
-            padding: 15px 40px;
-            margin: 10px;
+            padding: 15px 30px;
+            margin: 8px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
+            font-size: 1rem; /* Adjusted for mobile */
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             cursor: pointer;
             transition: all 0.2s;
             box-shadow: 0 0 15px rgba(0, 255, 255, 0.1), inset 0 0 10px rgba(0, 255, 255, 0.05);
             clip-path: polygon(10% 0, 100% 0, 100% 70%, 90% 100%, 0 100%, 0 30%);
-            min-width: 260px;
+            width: 100%;
+            max-width: 300px;
             text-align: center;
             position: relative;
             font-weight: 800;
             text-shadow: 0 0 5px rgba(0, 255, 255, 0.5);
         }
 
-        .btn:hover { background: rgba(0, 255, 255, 0.2); box-shadow: 0 0 25px rgba(0, 255, 255, 0.6); transform: scale(1.05); }
         .btn:active { transform: scale(0.95); background: rgba(0, 255, 255, 0.4); }
 
         .btn-red {
@@ -120,7 +124,6 @@
             box-shadow: 0 0 15px rgba(255, 0, 85, 0.1);
             text-shadow: 0 0 5px rgba(255, 0, 85, 0.5);
         }
-        .btn-red:hover { background: rgba(255, 0, 85, 0.2); box-shadow: 0 0 25px rgba(255, 0, 85, 0.6); }
         .btn-red:active { background: rgba(255, 0, 85, 0.4); }
 
         .menu-panel {
@@ -128,14 +131,16 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-top: 3px solid #00ffff;
             border-bottom: 3px solid #00ffff;
-            padding: 50px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
-            box-shadow: 0 0 80px rgba(0, 255, 255, 0.15);
+            box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
             backdrop-filter: blur(15px);
             position: relative;
             border-radius: 4px;
+            width: 100%;
+            max-width: 500px;
         }
 
         .menu-panel::after {
@@ -167,8 +172,8 @@
             background: rgba(0, 0, 0, 0.6);
             border: 2px solid #555;
             color: #aaa;
-            width: 60px;
-            height: 60px;
+            width: 70px; /* Larger for mobile */
+            height: 70px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -186,7 +191,7 @@
         .control-btn:active { transform: scale(0.95); }
         
         .control-badge {
-            position: absolute; top: -5px; right: -5px; background: #ff0055; color: white;
+            position: absolute; top: 0; right: 0; background: #ff0055; color: white;
             border-radius: 50%; width: 24px; height: 24px; font-size: 0.8rem;
             display: flex; align-items: center; justify-content: center; border: 2px solid #222;
         }
@@ -194,16 +199,27 @@
         .key-hint { position: absolute; bottom: -20px; font-size: 0.7rem; color: #888; font-weight: bold; }
         .hud-text { text-shadow: 0 0 5px currentColor; }
 
-        .shop-section { width: 95%; max-width: 800px; margin-bottom: 30px; }
-        .shop-header { color: #00ffff; border-bottom: 1px solid rgba(0, 255, 255, 0.3); margin-bottom: 15px; padding-bottom: 5px; font-size: 1.2rem; letter-spacing: 2px; text-transform: uppercase; }
-        .shop-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 20px; }
+        .shop-section { width: 100%; margin-bottom: 30px; }
+        .shop-header { color: #00ffff; border-bottom: 1px solid rgba(0, 255, 255, 0.3); margin-bottom: 15px; padding-bottom: 5px; font-size: 1.1rem; letter-spacing: 2px; text-transform: uppercase; }
+        
+        /* Optimized Grid for Mobile */
+        .shop-grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* Default single column for mobile */
+            gap: 15px; 
+            margin-bottom: 20px; 
+        }
+        @media (min-width: 640px) {
+            .shop-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
         .shop-item { border: 1px solid #333; padding: 20px; background: linear-gradient(135deg, rgba(20, 20, 25, 0.95) 0%, rgba(10, 10, 15, 0.98) 100%); display: flex; flex-direction: column; cursor: pointer; transition: 0.3s; position: relative; overflow: hidden; }
         .shop-item.selected { border-color: #00ff00; box-shadow: 0 0 20px rgba(0, 255, 0, 0.2); transform: translateY(-3px); }
         .shop-item.owned-pu { border-color: #d946ef; }
         .shop-item.locked { opacity: 0.6; filter: grayscale(0.8); }
 
         .stat-row { display: flex; align-items: center; margin-bottom: 4px; font-size: 0.7rem; color: #aaa; }
-        .stat-label { width: 50px; text-align: right; margin-right: 8px; font-weight: bold; }
+        .stat-label { width: 40px; text-align: right; margin-right: 8px; font-weight: bold; }
         .stat-track { flex-grow: 1; height: 4px; background: #333; border-radius: 2px; overflow: hidden; }
         .stat-fill { height: 100%; background: #00ffff; width: 0%; transition: width 0.5s ease-out; box-shadow: 0 0 5px #00ffff; }
         
@@ -213,7 +229,7 @@
         @keyframes load { 0% { width: 0%; } 50% { width: 60%; } 100% { width: 100%; } }
 
         #level-notification {
-            position: absolute; top: 30%; width: 100%; text-align: center; font-size: 5rem; font-weight: 900; color: #00ffff;
+            position: absolute; top: 30%; width: 100%; text-align: center; font-size: 4rem; font-weight: 900; color: #00ffff;
             text-shadow: 0 0 30px rgba(0, 255, 255, 0.8), 0 0 10px white;
             opacity: 0; pointer-events: none; transition: opacity 0.5s; z-index: 20; letter-spacing: 10px;
         }
@@ -227,16 +243,20 @@
         input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #00ffff; cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px #00ffff; border: 2px solid #fff; }
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; cursor: pointer; background: #333; border-radius: 2px; border: 1px solid #555; }
         
-        .status-icon { display: flex; align-items: center; margin-right: 15px; font-size: 0.9rem; color: #fff; background: rgba(0,0,0,0.6); padding: 6px 12px; border: 1px solid #555; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); }
+        .status-icon { display: flex; align-items: center; margin-right: 15px; font-size: 0.8rem; color: #fff; background: rgba(0,0,0,0.6); padding: 4px 8px; border: 1px solid #555; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.3); margin-bottom: 5px;}
 
         #combo-container {
-            position: absolute; top: 80px; left: 50%; transform: translateX(-50%);
+            position: absolute; top: 15%; left: 50%; transform: translateX(-50%);
             display: flex; flex-direction: column; align-items: center; opacity: 0; transition: opacity 0.3s;
         }
         #combo-container.active { opacity: 1; }
-        #combo-count { font-size: 2rem; font-weight: 900; color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.8); font-style: italic; }
-        #combo-bar-bg { width: 200px; height: 6px; background: rgba(0,0,0,0.5); border: 1px solid #555; margin-top: 5px; border-radius: 3px; overflow: hidden; }
+        #combo-count { font-size: 1.5rem; font-weight: 900; color: #ffd700; text-shadow: 0 0 15px rgba(255, 215, 0, 0.8); font-style: italic; }
+        #combo-bar-bg { width: 150px; height: 6px; background: rgba(0,0,0,0.5); border: 1px solid #555; margin-top: 5px; border-radius: 3px; overflow: hidden; }
         #combo-bar-fill { height: 100%; background: linear-gradient(90deg, #ffaa00, #ffff00); width: 100%; transition: width 0.1s linear; }
+
+        /* Responsive Text */
+        .title-text { font-size: 2.5rem; }
+        @media (min-width: 640px) { .title-text { font-size: 4rem; } }
 
     </style>
 </head>
@@ -249,16 +269,16 @@
         <div id="notifications"></div>
 
         <div id="boot-screen" class="screen active">
-            <h1 class="text-4xl md:text-6xl text-cyan-400 font-black tracking-widest mb-4 animate-pulse">SYSTEM BOOT</h1>
-            <div class="text-xs text-gray-500 font-mono mb-8">INITIALIZING GALAXY RAIDER OS v8.1...</div>
+            <h1 class="text-4xl md:text-6xl text-cyan-400 font-black tracking-widest mb-4 animate-pulse text-center">SYSTEM BOOT</h1>
+            <div class="text-xs text-gray-500 font-mono mb-8">INITIALIZING GALAXY RAIDER OS v9.1...</div>
             <div class="loader-bar"><div class="loader-progress"></div></div>
             <div class="mt-8 text-gray-500 text-xs animate-pulse">TAP OR PRESS KEY TO START</div>
         </div>
 
         <div id="menu-screen" class="screen">
             <div class="menu-panel">
-                <h1 class="text-5xl md:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 via-cyan-500 to-blue-600 mb-2 filter drop-shadow-[0_0_15px_rgba(0,255,255,0.6)] tracking-tight">GALAXY RAIDER</h1>
-                <p class="text-cyan-200 mb-10 tracking-[0.5em] text-xs uppercase opacity-80 border-t border-cyan-900 pt-2 w-full text-center">Tactical Space Defense</p>
+                <h1 class="title-text font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 via-cyan-500 to-blue-600 mb-2 filter drop-shadow-[0_0_15px_rgba(0,255,255,0.6)] tracking-tight text-center">GALAXY RAIDER</h1>
+                <p class="text-cyan-200 mb-10 tracking-[0.2em] text-xs uppercase opacity-80 border-t border-cyan-900 pt-2 w-full text-center">Tactical Space Defense</p>
                 <div class="flex flex-col gap-4 w-full items-center">
                     <button class="btn" onclick="game.start()">LAUNCH MISSION</button>
                     <button class="btn" onclick="game.openShop()">HANGAR BAY</button>
@@ -269,27 +289,27 @@
             </div>
         </div>
 
-        <div id="shop-screen" class="screen" style="justify-content: flex-start; padding-top: 40px; overflow-y: auto;">
+        <div id="shop-screen" class="screen" style="justify-content: flex-start; padding-top: 20px; overflow-y: auto;">
             <div class="w-full max-w-4xl px-4 flex flex-col items-center">
-                <div class="flex justify-between w-full max-w-[800px] items-end mb-6 border-b border-gray-700 pb-4">
-                    <h2 class="text-4xl text-white font-bold tracking-widest">HANGAR</h2>
-                    <div class="text-yellow-400 text-xl font-bold bg-yellow-900/20 px-4 py-1 border border-yellow-700 rounded">CREDITS: <span id="shop-coins">0</span></div>
+                <div class="flex justify-between w-full max-w-[800px] items-end mb-6 border-b border-gray-700 pb-4 sticky top-0 bg-[#050510] z-10 pt-4">
+                    <h2 class="text-2xl md:text-4xl text-white font-bold tracking-widest">HANGAR</h2>
+                    <div class="text-yellow-400 text-lg md:text-xl font-bold bg-yellow-900/20 px-4 py-1 border border-yellow-700 rounded whitespace-nowrap">CR: <span id="shop-coins">0</span></div>
                 </div>
                 <div class="shop-section">
                     <div class="shop-header">FIGHTER CLASS (MAX LVL 3)</div>
                     <div id="ships-container" class="shop-grid"></div>
                 </div>
                 <div class="shop-section">
-                    <div class="shop-header">TACTICAL UPGRADES & STOCK (MAX LVL 3)</div>
-                    <div id="powerups-container" class="shop-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));"></div>
+                    <div class="shop-header">TACTICAL UPGRADES</div>
+                    <div id="powerups-container" class="shop-grid"></div>
                 </div>
                 <button class="btn btn-red mt-4 mb-12" onclick="game.openMenu()">RETURN TO MENU</button>
             </div>
         </div>
 
         <div id="settings-screen" class="screen">
-            <div class="menu-panel w-96">
-                <h2 class="text-3xl text-white mb-8 tracking-widest border-b border-gray-700 pb-4 w-full text-center">SYSTEM SETTINGS</h2>
+            <div class="menu-panel w-full max-w-md">
+                <h2 class="text-2xl md:text-3xl text-white mb-8 tracking-widest border-b border-gray-700 pb-4 w-full text-center">SYSTEM SETTINGS</h2>
                 <div class="slider-container">
                     <div class="slider-label"><span>SFX VOLUME</span><span id="sfx-vol-val">50%</span></div>
                     <input type="range" id="sfx-slider" min="0" max="1" step="0.1" oninput="game.updateVolume('sfx')">
@@ -298,13 +318,13 @@
                     <div class="slider-label"><span>MUSIC VOLUME</span><span id="music-vol-val">50%</span></div>
                     <input type="range" id="music-slider" min="0" max="1" step="0.1" oninput="game.updateVolume('music')">
                 </div>
-                <div class="mt-8 text-xs text-gray-600 text-center">GALAXY RAIDER OS v8.1<br>AUTO-SAVE PROTOCOL: ACTIVE</div>
+                <div class="mt-8 text-xs text-gray-600 text-center">GALAXY RAIDER OS v9.1<br>AUTO-SAVE PROTOCOL: ACTIVE</div>
                 <button class="btn btn-red mt-8" onclick="game.openMenu()">BACK</button>
             </div>
         </div>
 
         <div id="pause-screen" class="screen">
-            <h2 class="text-5xl text-cyan-400 font-bold mb-12 tracking-widest filter drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">SYSTEM PAUSED</h2>
+            <h2 class="text-4xl md:text-5xl text-cyan-400 font-bold mb-12 tracking-widest filter drop-shadow-[0_0_10px_rgba(0,255,255,0.5)]">SYSTEM PAUSED</h2>
             <button class="btn" onclick="game.togglePause()">RESUME</button>
             <button class="btn btn-red" onclick="game.quitToMenu()">ABORT MISSION</button>
         </div>
@@ -313,11 +333,11 @@
             <div class="flex justify-between items-start w-full">
                 <div class="flex flex-col">
                     <span class="text-white text-xl font-bold hud-text tracking-widest">SCORE: <span id="score-display">0</span></span>
-                    <div class="w-48 h-3 bg-gray-900 border border-gray-600 mt-2 rounded-sm relative overflow-hidden box-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
+                    <div class="w-32 md:w-48 h-3 bg-gray-900 border border-gray-600 mt-2 rounded-sm relative overflow-hidden box-shadow-[0_0_10px_rgba(0,0,0,0.5)]">
                         <div id="health-bar" class="absolute top-0 left-0 h-full bg-gradient-to-r from-green-600 to-green-400 transition-all duration-200" style="width: 100%"></div>
                     </div>
                     <div class="text-yellow-400 font-bold text-sm mt-2 hud-text">CREDITS: <span id="coin-display">0</span></div>
-                    <div class="flex mt-3" id="status-hud"></div>
+                    <div class="flex flex-col mt-3" id="status-hud"></div>
                 </div>
                 <div class="pause-btn" onclick="game.togglePause()">
                     <svg width="14" height="18" viewBox="0 0 14 18" fill="currentColor"><rect width="4" height="18" /><rect x="10" width="4" height="18" /></svg>
@@ -346,7 +366,7 @@
 
         <div id="gameover-screen" class="screen">
             <div class="menu-panel border-red-500 border-t-2 border-b-2">
-                <h1 class="text-5xl text-red-500 font-black mb-2 tracking-widest">CRITICAL FAILURE</h1>
+                <h1 class="text-4xl md:text-5xl text-red-500 font-black mb-2 tracking-widest text-center">CRITICAL FAILURE</h1>
                 <p class="text-white text-xl mb-6 font-mono">SCORE: <span id="final-score" class="text-cyan-400">0</span></p>
                 <div class="bg-gray-900/50 p-4 rounded border border-gray-700 mb-8 w-full text-center">
                     <p class="text-gray-400 text-xs uppercase mb-1">Salvage Value</p>
@@ -359,7 +379,7 @@
 
         <div id="shutdown-screen" class="screen">
             <div class="text-center">
-                <h1 class="text-4xl text-gray-500 font-black tracking-widest mb-4">SYSTEM TERMINATED</h1>
+                <h1 class="text-3xl md:text-4xl text-gray-500 font-black tracking-widest mb-4">SYSTEM TERMINATED</h1>
                 <p class="text-gray-600 text-sm">THANK YOU FOR PLAYING</p>
                 <button class="btn mt-8" onclick="location.reload()">REBOOT SYSTEM</button>
             </div>
@@ -368,8 +388,27 @@
     </div>
 
     <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Game Constants & State - Moved to top to avoid initialization errors
+        const GAME_STATE = { BOOT: 0, MENU: 1, PLAYING: 2, GAMEOVER: 3, PAUSED: 4 };
+        let currentState = GAME_STATE.BOOT;
+        let score = 0, frame = 0, level = 1, enemies = [], bullets = [], particles = [], drops = [], stars = [], floatingTexts = [], shake = 0, gridOffset = 0;
+        let width, height;
+
+        function resize() { 
+            width = window.innerWidth; height = window.innerHeight; 
+            canvas.width = width; canvas.height = height; 
+            // Regenerate stars on resize to cover new area
+            stars = [];
+            for(let i=0; i<80; i++) { stars.push({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 2 + 0.5, speed: Math.random() * 2 + 0.5 }); }
+        }
+        window.addEventListener('resize', resize); 
+        resize(); // Safe to call now
+
         const SaveSystem = {
-            key: 'galaxy_raider_save_v14',
+            key: 'galaxy_raider_save_v15',
             data: {
                 coins: 0, 
                 highScore: 0,
@@ -530,15 +569,6 @@
             { id: 'regen', name: "NANO REPAIR", cost: 75, color: "#00ff00", desc: "Restores Hull Integrity. Upgrade for more healing.", icon: "➕", maxLevel: 3, upgradeCost: 1200 }
         ];
 
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-        let width, height;
-        function resize() { width = window.innerWidth; height = window.innerHeight; canvas.width = width; canvas.height = height; }
-        window.addEventListener('resize', resize); resize();
-
-        const GAME_STATE = { BOOT: 0, MENU: 1, PLAYING: 2, GAMEOVER: 3, PAUSED: 4 };
-        let currentState = GAME_STATE.BOOT;
-        let score = 0, frame = 0, level = 1, enemies = [], bullets = [], particles = [], drops = [], stars = [], floatingTexts = [], shake = 0, gridOffset = 0;
         
         const player = { x: 0, y: 0, radius: 25, targetX: 0, targetY: 0, hp: 100, maxHp: 100, lastShot: 0, config: SHIPS[0], shieldHp: 0, laserTimer: 0, scoreMult: 1, scoreMultTimer: 0, combo: 0, comboTimer: 0, damage: 1 };
         let touchActive = false;
@@ -554,8 +584,6 @@
         window.addEventListener('keyup', e => { input.keys[e.key.toLowerCase()] = false; input.keys[e.code] = false; });
         window.addEventListener('gamepadconnected', e => { input.gamepadIndex = e.gamepad.index; });
         window.addEventListener('gamepaddisconnected', () => { input.gamepadIndex = null; });
-
-        for(let i=0; i<80; i++) { stars.push({ x: Math.random() * width, y: Math.random() * height, size: Math.random() * 2 + 0.5, speed: Math.random() * 2 + 0.5 }); }
 
         class FloatingText {
             constructor(x, y, text, color, size = 20) { this.x = x; this.y = y; this.text = text; this.color = color; this.size = size; this.life = 1.0; this.vy = -3; }
@@ -575,13 +603,20 @@
         class Enemy {
             constructor(x, y, typeOverride) {
                 const difficultyMultiplier = Math.min(3, 1 + (score / 2000) + (level * 0.2));
-                if (typeOverride === 'swarm') { this.x = x; this.y = y; this.type = 'swarm'; this.hp = 1; this.speed = (3.5 + Math.random()) * difficultyMultiplier; this.r = 12; this.color = '#ff9900'; this.scoreVal = 5; this.fireRate = Infinity; this.bulletSpeed = 0; return; }
+                if (typeOverride === 'swarm') { 
+                    this.x = x; this.y = y; this.type = 'swarm'; this.hp = 1; 
+                    // Reduced speed for swarm
+                    this.speed = (2.0 + Math.random()) * difficultyMultiplier; 
+                    this.r = 12; this.color = '#ff9900'; this.scoreVal = 5; this.fireRate = Infinity; this.bulletSpeed = 0; return; 
+                }
                 this.x = Math.random() * (width - 40) + 20; this.y = -60; this.lastShot = frame + Math.random() * 60;
                 let type = 'scout'; const roll = Math.random();
                 if (score > 1500 || level > 2) { if (roll < 0.4) type = 'scout'; else if (roll < 0.8) type = 'fighter'; else type = 'tank'; } else if (score > 500 || level > 1) { if (roll < 0.6) type = 'scout'; else type = 'fighter'; } else { type = 'scout'; }
-                if (type === 'scout') { this.type = 'scout'; this.hp = 1 * difficultyMultiplier; this.speed = (3 + Math.random()) * difficultyMultiplier; this.r = 20; this.color = '#ff69b4'; this.scoreVal = 10; this.fireRate = 80; this.bulletSpeed = 6; } 
-                else if (type === 'fighter') { this.type = 'fighter'; this.hp = 2 * difficultyMultiplier; this.speed = (2.5 + Math.random()) * difficultyMultiplier; this.r = 25; this.color = '#ff0000'; this.scoreVal = 25; this.fireRate = 50; this.bulletSpeed = 8; } 
-                else { this.type = 'tank'; this.hp = 8 * difficultyMultiplier; this.speed = 1.5 * difficultyMultiplier; this.r = 40; this.color = '#cc0000'; this.scoreVal = 100; this.fireRate = 180; this.bulletSpeed = 12; }
+                
+                // Reduced Speeds for all enemies
+                if (type === 'scout') { this.type = 'scout'; this.hp = 1 * difficultyMultiplier; this.speed = (1.5 + Math.random()) * difficultyMultiplier; this.r = 20; this.color = '#ff69b4'; this.scoreVal = 10; this.fireRate = 80; this.bulletSpeed = 6; } 
+                else if (type === 'fighter') { this.type = 'fighter'; this.hp = 2 * difficultyMultiplier; this.speed = (1.2 + Math.random()) * difficultyMultiplier; this.r = 25; this.color = '#ff0000'; this.scoreVal = 25; this.fireRate = 50; this.bulletSpeed = 8; } 
+                else { this.type = 'tank'; this.hp = 8 * difficultyMultiplier; this.speed = 0.6 * difficultyMultiplier; this.r = 40; this.color = '#cc0000'; this.scoreVal = 100; this.fireRate = 180; this.bulletSpeed = 12; }
                 this.speed = Math.min(this.speed, 8);
             }
             update() {
@@ -1083,10 +1118,30 @@
             hideAllScreens: () => { document.querySelectorAll('.screen').forEach(s => s.classList.remove('active')); }
         };
 
-        window.addEventListener('touchstart', e => { touchActive = true; if(currentState === GAME_STATE.PLAYING && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) { player.targetX = e.touches[0].clientX; player.targetY = e.touches[0].clientY; } }, {passive: false});
-        window.addEventListener('touchmove', e => { if(currentState === GAME_STATE.PLAYING) { e.preventDefault(); player.targetX = e.touches[0].clientX; player.targetY = e.touches[0].clientY; } }, {passive: false});
+        window.addEventListener('touchstart', e => { 
+            touchActive = true; 
+            if(currentState === GAME_STATE.PLAYING && e.target.tagName !== 'BUTTON' && !e.target.closest('button')) { 
+                player.targetX = e.touches[0].clientX; 
+                // Touch Offset: Place ship slightly above finger to improve visibility
+                player.targetY = e.touches[0].clientY - 50; 
+            } 
+        }, {passive: false});
+
+        window.addEventListener('touchmove', e => { 
+            if(currentState === GAME_STATE.PLAYING) { 
+                e.preventDefault(); 
+                player.targetX = e.touches[0].clientX; 
+                player.targetY = e.touches[0].clientY - 50; 
+            } 
+        }, {passive: false});
+        
         window.addEventListener('touchend', () => touchActive = false);
-        window.addEventListener('mousemove', e => { if(currentState === GAME_STATE.PLAYING && !touchActive) { player.targetX = e.clientX; player.targetY = e.clientY; } });
+        window.addEventListener('mousemove', e => { 
+            if(currentState === GAME_STATE.PLAYING && !touchActive) { 
+                player.targetX = e.clientX; 
+                player.targetY = e.clientY; 
+            } 
+        });
 
         game.init();
 
